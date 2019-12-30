@@ -1,0 +1,5 @@
+<?php
+    define("CarBrands", ["Alfa Romeo", "Asia", "Audi", "BMW", "Chana", "Chery", "Chevrolet", "Chrysler", "Citroën", "Dodge", "Effa", "Engesa", "Fiat", "Ford", "Gurgel", "Hafei Towner", "Honda", "Hummer", "Hyundai", "JAC", "Jaguar", "Jeep", "Kia", "Lada", "Land Rover", "Lexus", "Lifan", "Mercedes-Benz", "Mitsubishi", "Nissan", "Peugeot", "Porsche", "Renault", "Suzuki", "Subaru", "Toyota", "Troller", "Volkswagen", "Volvo"]);
+    define("MotorcycleBrands", ["Agrale", "Amazonas", "BMW", "Bombardier", "Dafra", "Ducati", "Garelli", "Gas Gas", "Harley Davidson", "Honda", "Husqvarna", "Indian", "Kasinski", "Kawasaki", "KTM", "Royal Enfield", "Shineray", "Sundown", "Suzuki", "Triumph", "Vespa", "Yamaha"]);
+    define("ClassicBrands", ["Alfa Romeo", "Bentley", "BMW", "Buick", "Cadillac", "Chevrolet", "Chrysler", "DKW", "Dodge", "Ferrari", "Fiat", "Ford", "Jaguar", "Jeep", "Gordini", "Lamborghini", "Land Rover", "Lincoln", "Mercedes-Benz", "MINI", "Oldsmobile", "Plymouth", "Pontiac", "Porsche", "Volkswagen"]);
+?>
