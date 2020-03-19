@@ -477,7 +477,7 @@
   <script src="lib/easing/easing.min.js"></script>
   <script src="lib/owlcarousel/owl.carousel.min.js"></script>
   <script src="lib/scrollreveal/scrollreveal.min.js"></script>
-  <script src="lib/notify/js/jquery.notify.min"></script>
+  <script src="lib/notify/js/jquery.notify.min.js"></script>
   <script src="js/util.js"></script>
   <!-- Contact Form JavaScript File -->
   <script src="contactform/contactform.js"></script>

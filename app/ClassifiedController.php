@@ -10,12 +10,12 @@
 
             $ClassifiedCarQuery = $pdo->prepare("INSERT INTO Classifieds (Classifieds_Date, Classifieds_Description, Classifieds_Price, Classifieds_VideoLink, Classifieds_UF, Classifieds_City, Classifieds_Type, Users_ID_FK) VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
             $ClassifiedCarQuery->bindValue(1, $ClassifiedCarModel->getClassifiedDate(), PDO::PARAM_STR);
-            $ClassifiedCarQuery->bindValue(2, utf8_decode($ClassifiedCarModel->getClassifiedDescription()), PDO::PARAM_STR);
+            $ClassifiedCarQuery->bindValue(2, $ClassifiedCarModel->getClassifiedDescription(), PDO::PARAM_STR);
             $ClassifiedCarQuery->bindValue(3, $ClassifiedCarModel->getClassifiedPrice(), PDO::PARAM_STR);
-            $ClassifiedCarQuery->bindValue(4, utf8_decode($ClassifiedCarModel->getClassifiedVideoLink()), PDO::PARAM_STR);
-            $ClassifiedCarQuery->bindValue(5, utf8_decode($ClassifiedCarModel->getClassifiedUF()), PDO::PARAM_STR);
-            $ClassifiedCarQuery->bindValue(6, utf8_decode($ClassifiedCarModel->getClassifiedCity()), PDO::PARAM_STR);
-            $ClassifiedCarQuery->bindValue(7, utf8_decode($ClassifiedCarModel->getClassifiedType()), PDO::PARAM_STR);
+            $ClassifiedCarQuery->bindValue(4, $ClassifiedCarModel->getClassifiedVideoLink(), PDO::PARAM_STR);
+            $ClassifiedCarQuery->bindValue(5, $ClassifiedCarModel->getClassifiedUF(), PDO::PARAM_STR);
+            $ClassifiedCarQuery->bindValue(6, $ClassifiedCarModel->getClassifiedCity(), PDO::PARAM_STR);
+            $ClassifiedCarQuery->bindValue(7, $ClassifiedCarModel->getClassifiedType(), PDO::PARAM_STR);
             $ClassifiedCarQuery->bindValue(8, $ClassifiedCarModel->getUserModel()->getUserID(), PDO::PARAM_INT);
 
             if ($ClassifiedCarQuery->execute()) {
@@ -23,22 +23,22 @@
 
                 for ($i = 0; $i < count($ClassifiedCarModel->getClassifiedPictures()); $i++) {
                     $ClassifiedCarQuery = $pdo->prepare("INSERT INTO Classifieds_Pictures (Classifieds_Pictures_FileName, Classifieds_ID_FK) VALUES (?, ?);");
-                    $ClassifiedCarQuery->bindValue(1, utf8_decode($ClassifiedCarModel->getClassifiedPictures()[$i]), PDO::PARAM_STR);
+                    $ClassifiedCarQuery->bindValue(1, $ClassifiedCarModel->getClassifiedPictures()[$i], PDO::PARAM_STR);
                     $ClassifiedCarQuery->bindValue(2, $LastID, PDO::PARAM_INT);
 
                     $ClassifiedCarQuery->execute();
                 }
                 
                 $ClassifiedCarQuery = $pdo->prepare("INSERT INTO Classifieds_Cars (Classifieds_Cars_Brand, Classifieds_Cars_Model, Classifieds_Cars_Version, Classifieds_Cars_Year, Classifieds_Cars_Fuel, Classifieds_Cars_Transmission, Classifieds_Cars_Doors, Classifieds_Cars_Engine, Classifieds_Cars_Colors, Classifieds_Cars_Metreage, Classifieds_ID_FK) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
-                $ClassifiedCarQuery->bindValue(1, utf8_decode($ClassifiedCarModel->getClassifiedCarBrand()), PDO::PARAM_STR);
-                $ClassifiedCarQuery->bindValue(2, utf8_decode($ClassifiedCarModel->getClassifiedCarModel()), PDO::PARAM_STR);
-                $ClassifiedCarQuery->bindValue(3, utf8_decode($ClassifiedCarModel->getClassifiedCarVersion()), PDO::PARAM_STR);
+                $ClassifiedCarQuery->bindValue(1, $ClassifiedCarModel->getClassifiedCarBrand(), PDO::PARAM_STR);
+                $ClassifiedCarQuery->bindValue(2, $ClassifiedCarModel->getClassifiedCarModel(), PDO::PARAM_STR);
+                $ClassifiedCarQuery->bindValue(3, $ClassifiedCarModel->getClassifiedCarVersion(), PDO::PARAM_STR);
                 $ClassifiedCarQuery->bindValue(4, $ClassifiedCarModel->getClassifiedCarYear(), PDO::PARAM_INT);
-                $ClassifiedCarQuery->bindValue(5, utf8_decode($ClassifiedCarModel->getClassifiedCarFuel()), PDO::PARAM_STR);
-                $ClassifiedCarQuery->bindValue(6, utf8_decode($ClassifiedCarModel->getClassifiedCarTransmission()), PDO::PARAM_STR);
+                $ClassifiedCarQuery->bindValue(5, $ClassifiedCarModel->getClassifiedCarFuel(), PDO::PARAM_STR);
+                $ClassifiedCarQuery->bindValue(6, $ClassifiedCarModel->getClassifiedCarTransmission(), PDO::PARAM_STR);
                 $ClassifiedCarQuery->bindValue(7, $ClassifiedCarModel->getClassifiedCarDoors(), PDO::PARAM_INT);
-                $ClassifiedCarQuery->bindValue(8, utf8_decode($ClassifiedCarModel->getClassifiedCarEngine()), PDO::PARAM_STR);
-                $ClassifiedCarQuery->bindValue(9, utf8_decode($ClassifiedCarModel->getClassifiedCarColor()), PDO::PARAM_STR);
+                $ClassifiedCarQuery->bindValue(8, $ClassifiedCarModel->getClassifiedCarEngine(), PDO::PARAM_STR);
+                $ClassifiedCarQuery->bindValue(9, $ClassifiedCarModel->getClassifiedCarColor(), PDO::PARAM_STR);
                 $ClassifiedCarQuery->bindValue(10, $ClassifiedCarModel->getClassifiedCarMetreage(), PDO::PARAM_INT);
                 $ClassifiedCarQuery->bindValue(11, $LastID, PDO::PARAM_STR);
 
@@ -126,6 +126,8 @@
 
             $ClassifiedCarsArray = array();
 
+		if ($ClassifiedCarQuery) {
+			if ($ClassifiedCarQuery->rowCount() > 0) {
             while ($Row = $ClassifiedCarQuery->fetch()) {
                 $UserModel = new UserModel();
                 $ClassifiedCarModel = new ClassifiedCarModel();
@@ -180,7 +182,8 @@
 
                 array_push($ClassifiedCarsArray, $ClassifiedCarModel);
             }
-
+}
+}
             return $ClassifiedCarsArray;
         }
 
@@ -191,7 +194,8 @@
 
             $ClassifiedCarsArray = array();
         
-  
+            if ($ClassifiedCarQuery) {
+		if ($ClassifiedCarQuery->rowCount() > 0) {
             while ($Row = $ClassifiedCarQuery->fetch()) {
                 $UserModel = new UserModel();
                 $ClassifiedCarModel = new ClassifiedCarModel();
@@ -247,6 +251,7 @@
 
                 array_push($ClassifiedCarsArray, $ClassifiedCarModel);
             }
+}}
 
             return $ClassifiedCarsArray;
         }
@@ -387,7 +392,8 @@
             $ClassifiedMotorcycleQuery = $pdo->query("SELECT Classifieds_ID, Classifieds_Date, Classifieds_Description, Classifieds_Price, Classifieds_VideoLink, Classifieds_UF, Classifieds_City, Classifieds_Type, Users_ID_FK, Classifieds_Motorcycles_ID, Classifieds_Motorcycles_Brand, Classifieds_Motorcycles_Model, Classifieds_Motorcycles_Version, Classifieds_Motorcycles_Year, Classifieds_Motorcycles_Fuel, Classifieds_Motorcycles_Color, Classifieds_Motorcycles_Metreage, Classifieds_Motorcycles_Items_ID, Classifieds_Motorcycles_Items_HasFrontBrakeDisk, Classifieds_Motorcycles_Items_HasBackBrakeDisk, Classifieds_Motorcycles_Items_HasABS, Classifieds_Motorcycles_Items_HasPowerStart, Classifieds_Motorcycles_Items_HasAlloyWheels FROM Classifieds INNER JOIN Classifieds_Motorcycles ON Classifieds_ID = Classifieds_ID_FK INNER JOIN Classifieds_Motorcycles_Items ON Classifieds_Motorcycles_ID = Classifieds_Motorcycles_ID_FK;");
 
             $ClassifiedMotorcyclesArray = array();
-
+		if ($ClassifiedMotorcycleQuery) {
+			if ($ClassifiedMotorcycleQuery->rowCount() > 0) {
             while ($Row = $ClassifiedMotorcycleQuery->fetch()) {
                 $UserModel = new UserModel();
                 $ClassifiedMotorcycleModel = new ClassifiedMotorcycleModel();
@@ -433,6 +439,7 @@
 
                 array_push($ClassifiedMotorcyclesArray, $ClassifiedMotorcycleModel);
             }
+}}
 
             return $ClassifiedMotorcyclesArray;
         }
@@ -445,18 +452,18 @@
             
             if ($ClassifiedQuery->execute()) {
                 $Row = $ClassifiedQuery->fetch();
-                if (utf8_encode($Row["Classifieds_Type"]) === "Carro" || utf8_encode($Row["Classifieds_Type"]) === "Clássico") {
+                if ($Row["Classifieds_Type"] === "Carro" || $Row["Classifieds_Type"] === "Clássico") {
                     $UserModel = new UserModel();
                     $ClassifiedCarModel = new ClassifiedCarModel();
                     $ClassifiedCarItemsModel = new ClassifiedCarItemsModel();
                     $ClassifiedCarModel->setClassifiedID($Row["Classifieds_ID"]);
                     $ClassifiedCarModel->setClassifiedDate($Row["Classifieds_Date"]);
-                    $ClassifiedCarModel->setClassifiedDescription(utf8_encode($Row["Classifieds_Description"]));
+                    $ClassifiedCarModel->setClassifiedDescription($Row["Classifieds_Description"]);
                     $ClassifiedCarModel->setClassifiedPrice($Row["Classifieds_Price"]);
-                    $ClassifiedCarModel->setClassifiedVideoLink(utf8_encode($Row["Classifieds_VideoLink"]));
-                    $ClassifiedCarModel->setClassifiedUF(utf8_encode($Row["Classifieds_UF"]));
-                    $ClassifiedCarModel->setClassifiedCity(utf8_encode($Row["Classifieds_City"]));
-                    $ClassifiedCarModel->setClassifiedType(utf8_encode($Row["Classifieds_Type"]));
+                    $ClassifiedCarModel->setClassifiedVideoLink($Row["Classifieds_VideoLink"]);
+                    $ClassifiedCarModel->setClassifiedUF($Row["Classifieds_UF"]);
+                    $ClassifiedCarModel->setClassifiedCity($Row["Classifieds_City"]);
+                    $ClassifiedCarModel->setClassifiedType($Row["Classifieds_Type"]);
                     $UserModel->setUserID($Row["Users_ID_FK"]);
                     $ClassifiedCarModel->setUserModel($UserModel);
 
@@ -467,15 +474,15 @@
                         $Row = $ClassifiedQuery->fetch();
 
                         $ClassifiedCarModel->setClassifiedCarID($Row["Classifieds_Cars_ID"]);
-                        $ClassifiedCarModel->setClassifiedCarBrand(utf8_encode($Row["Classifieds_Cars_Brand"]));
-                        $ClassifiedCarModel->setClassifiedCarModel(utf8_encode($Row["Classifieds_Cars_Model"]));
-                        $ClassifiedCarModel->setClassifiedCarVersion(utf8_encode($Row["Classifieds_Cars_Version"]));
+                        $ClassifiedCarModel->setClassifiedCarBrand($Row["Classifieds_Cars_Brand"]);
+                        $ClassifiedCarModel->setClassifiedCarModel($Row["Classifieds_Cars_Model"]);
+                        $ClassifiedCarModel->setClassifiedCarVersion($Row["Classifieds_Cars_Version"]);
                         $ClassifiedCarModel->setClassifiedCarYear($Row["Classifieds_Cars_Year"]);
-                        $ClassifiedCarModel->setClassifiedCarFuel(utf8_encode($Row["Classifieds_Cars_Fuel"]));
-                        $ClassifiedCarModel->setClassifiedCarTransmission(utf8_encode($Row["Classifieds_Cars_Transmission"]));
+                        $ClassifiedCarModel->setClassifiedCarFuel($Row["Classifieds_Cars_Fuel"]);
+                        $ClassifiedCarModel->setClassifiedCarTransmission($Row["Classifieds_Cars_Transmission"]);
                         $ClassifiedCarModel->setClassifiedCarDoors($Row["Classifieds_Cars_Doors"]);
-                        $ClassifiedCarModel->setClassifiedCarEngine(utf8_encode($Row["Classifieds_Cars_Engine"]));
-                        $ClassifiedCarModel->setClassifiedCarColor(utf8_encode($Row["Classifieds_Cars_Colors"]));
+                        $ClassifiedCarModel->setClassifiedCarEngine($Row["Classifieds_Cars_Engine"]);
+                        $ClassifiedCarModel->setClassifiedCarColor($Row["Classifieds_Cars_Colors"]);
                         $ClassifiedCarModel->setClassifiedCarMetreage($Row["Classifieds_Cars_Metreage"]);
                         $ClassifiedCarItemsModel->setClassifiedCarItemsID($Row["Classifieds_Cars_Items_ID"]);
                         $ClassifiedCarItemsModel->setClassifiedCarItemsHasAirConditioning($Row["Classifieds_Cars_Items_HasAirConditioning"]);
@@ -499,7 +506,7 @@
         
                         if ($ClassifiedCarImagesQuery->execute()) {
                             while ($RowImages = $ClassifiedCarImagesQuery->fetch()) {
-                                array_push($ClassifiedCarImagesArray, utf8_encode($RowImages["Classifieds_Pictures_FileName"]));
+                                array_push($ClassifiedCarImagesArray, $RowImages["Classifieds_Pictures_FileName"]);
                             }
                         }
         

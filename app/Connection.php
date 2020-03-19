@@ -1,7 +1,7 @@
 <?php
     try
     {
-        $pdo = new PDO("mysql:host=localhost;dbname=AUTO_CLASSIFIEDS_DB;", "root", "");
+        $pdo = new PDO("mysql:host=localhost;dbname=AUTO_CLASSIFIEDS_DB;", "db-user", "123");
     }
     catch(PDOException $e)
     {
